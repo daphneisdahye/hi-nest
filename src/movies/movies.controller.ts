@@ -1,17 +1,18 @@
-import { Controller, Delete, Get, Param, Put, Post, Patch, Body, Query } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Put, Post, Patch, Body, Query, Req, Res } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { Movie } from './entities/movie.entity';
 import { CreateMovieDto } from './dto/create-movie.dto';
+import { UpdateMovieDto } from './dto/updte-movie.dto';
 
 
-@Controller('movies')
+@Controller('movies')  //url이 movies로 기본연결됨
 export class MoviesController {
         //moviesService 의존성주입 받기위해 
         constructor(private readonly moviesService: MoviesService) {}
 
 
     @Get()
-    getAll():Movie[] {
+    getAll(@Req() req, @Res() res):Movie[] {
         return this.moviesService.getAll();
     }
 
@@ -33,7 +34,7 @@ export class MoviesController {
     }
 
     @Patch('/:id')
-    patchMovie(@Param("id") id:number, @Body() updateData) {
+    patchMovie(@Param("id") id:number, @Body() updateData:UpdateMovieDto) {
         return this.moviesService.update(id, updateData)
     
     };

@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Movie } from './entities/movie.entity';
 import { CreateMovieDto } from './dto/create-movie.dto';
+import { UpdateMovieDto } from './dto/updte-movie.dto';
 
 @Injectable()
 export class MoviesService {
@@ -30,7 +31,7 @@ export class MoviesService {
         });
     }
 
-    update(id:number, updateData) {
+    update(id:number, updateData: UpdateMovieDto) {
         const movie = this.getOne(id); //예외처리 or movie가 존재할경우 불러오기
         this.deleteOne(id) // 기존 movie정보를 삭제하기
         this.movies.push({...movie,...updateData});  // 과거 data에 새로운 movie 더하기, insomnia를 쓰기 때문에 설정한 로직
