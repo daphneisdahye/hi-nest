@@ -9,8 +9,8 @@ async function bootstrap() {
     whitelist : true,
     forbidNonWhitelisted: true, //@데코레이터 없으면 에러메시지 띄움 
     transform: true, //자동 형변환
-   }
-  )); // 유효성검사
+   }),
+  ); // 유효성검사
   await app.listen(3000);
 }
 bootstrap();
