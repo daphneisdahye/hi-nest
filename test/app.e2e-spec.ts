@@ -38,7 +38,7 @@ describe('AppController (e2e)', () => {
         .expect(200)
         .expect([]); //array를 받아오는지 확인
     });
-    it('POST',()=>{
+    it('POST 201',()=>{
       return request(app.getHttpServer()) //서버에 리퀘스트
       .post("/movies") //movies에서 post를 할 때
       .send({  //아래정보를 같이보냄
@@ -47,6 +47,17 @@ describe('AppController (e2e)', () => {
         genres:["test"],
       })
       .expect(201);   //201: 생성됨을 뜻함. 201을 돌려받는지 확인
+    });
+    it('POST 400',()=>{
+      return request(app.getHttpServer()) 
+      .post("/movies") 
+      .send({  
+        title:"Test",
+        year:2000,
+        genres:["test"],
+        other:"thing"
+      })
+      .expect(400);   //ValidationPipe에 의해 400를 리턴할 것을 기대함
     });
     it('DELETE', () => {
       return request(app.getHttpServer())
@@ -62,8 +73,24 @@ describe('AppController (e2e)', () => {
       .get("/movies/1")
       .expect(200);
     });
-    it.todo('DELETE');
-    it.todo('PATCH');
+    it('GET 404', ()=>{
+      return request(app.getHttpServer())
+      .get("/movies/999")
+      .expect(404);
+    });
+    it('PATCH 200',()=>{
+      return request(app.getHttpServer())
+      .patch('/movies/1')
+      .send({
+        title:"Updated Test"
+      })
+      .expect(200);
+    });
+    it('DELETE 200', ()=>{
+      return request(app.getHttpServer())
+      .delete('/movies/1')
+      .expect(200)
+    });
   });
 });
 
